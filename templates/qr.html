@@ -4,8 +4,13 @@
 {% endblock %}
 {% block page %}
     <h2>Su código</h2>
-    <p><input type="text" size='{{image_url|length}}' value={{image_url}}></p>
-    <p id="qr"><img src="{{image_url}}" /></p>
-    <p><a class="call" href="/">Crear un nuevo QuRe</a></p>
+    <p>
+        <input type="text" size='{{image_url|length}}' value={{image_url}}> <br /> 
+        <a href="{{url}}">permalink</a>
+    </p>
+    
+    <p id="qr"><a href=="{{image_url}}"><img src="{{image_url}}" /></a></p>
+    <pre>{{data}}</pre>
+    <p class="submit"><a class="call" href="/">Crear un nuevo QuRe</a></p>
 
 {% endblock %}

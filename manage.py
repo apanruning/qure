@@ -1,9 +1,11 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 from flask import Flask, request, render_template, session, redirect, abort, url_for, send_file
 from qrcode import QRCode
 from hashlib import sha1
+from PIL import PngImagePlugin, Image
+from urllib2 import quote, unquote
 
 app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
@@ -31,11 +33,14 @@ def generate_csrf_token():
 app.jinja_env.globals['csrf_token'] = generate_csrf_token  
 
 def create_qr(data):
-    from PIL import PngImagePlugin
+
+    
     meta = PngImagePlugin.PngInfo()
-    meta.add_text('message', data)
-    filehash = sha1(data).hexdigest()[:12]
+    filehash = sha1(data.encode('ascii', 'ignore')).hexdigest()[:12]
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
+    
+    data = quote(data.encode('utf8'))
+    meta.add_text('message', data)
     
     if not os.path.exists(filepath):
     
@@ -66,11 +71,12 @@ def index():
 
 @app.route('/<filehash>')
 def code(filehash):
-    from PIL import Image
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
+    
     url = url_for('code', filehash=filehash, _external=True)
-    data = Image.open(filepath).info['message']
+    data = unicode(unquote(Image.open(filepath).info['message']),'utf8')
     image_url = url_for('qr', data=data, _external=True)
+    
     return render_template(
         'qr.html', 
         filehash=filehash,

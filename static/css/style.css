@@ -17,22 +17,22 @@ body {
 }
 footer{
     height: 2em;
-    margin: 0 auto !important;
+    margin: 1em auto !important;
 }
 
 header, section, footer {
     display: block;
     width: 40em;
-    margin: 4em auto;
+    margin: 2em auto;
 
 }
-header {
-    overflow:hidden;
+section {
+    margin: 2em auto 6em;
 }
 header h1 {
     float:left;
     font-size: 3em;
-    margin: 0.2em
+    margin: 0.2em 0;
 }
 
 header nav {
@@ -55,6 +55,7 @@ textarea {
     width: 100%;
     border-radius: 3px;
 }
+
 input[type="text"]:focus,
 textarea:focus {
     border: 1px solid #61851B;
@@ -62,12 +63,16 @@ textarea:focus {
     box-shadow: 0 0 15px #71D20B;
     outline:0;
 }
+.submit {
+    text-align:right;
+}
 input[type="submit"], 
 a.call {
     border: 1px solid #61851B;
     border-radius: 5px;
     background: #40B086;
     padding: 5px;
+    margin:0 -5px;
     color: #FFF;
 }
 input[type="submit"]:hover, 
@@ -78,13 +83,19 @@ a.call:hover {
  }
 #qr {
     text-align:middle;
+    margin-bottom: 0;
 }
  
 #qr img {
     display:block;
     margin: 0 auto;
 }
-
+pre {
+    font: 22px 'Inconsolata', 'Monaco', 'Consolas', monospace;
+    white-space: pre-wrap;
+    color: #666;
+    margin: 0 1em 3em;
+}
 .clear {
     display:block;
     clear: both;
