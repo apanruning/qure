@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}
+    Obtenga su QR code rápido
+{% endblock %}
+{% block page %}
+    <h2></h2>
+    <p>Ingrese un una cadena de texto y le damos un código QR</p>
+    <form action="/" method="post">
+        <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+
+        <textarea name="data" rows="4" cols="40"></textarea>
+        <p><input type="submit" value="Crear" /></p>
+    </form>
+{% endblock %}

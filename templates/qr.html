@@ -1,0 +1,6 @@
+{% extends "layout.html" %}
+{% block page %}
+    <h2>Su código</h2>
+    <p><input type="text" size='{{url|length}}' value={{url}}></p>
+    <p><img src="{{config['UPLOAD_URL']}}{{filename}}.png" /></p>
+{% endblock %}

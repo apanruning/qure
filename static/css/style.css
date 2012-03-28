@@ -1,0 +1,32 @@
+body {
+    font: 13px 'Droid Sans', 'Helvetica', 'Arial', sans-serif;
+    margin: 0;
+    padding:0;
+}
+
+header, section, footer {
+    display: block;
+    width: 40em;
+    margin: 4em auto;
+
+}
+a {
+    text-decoration: none;
+    color: #40B086;
+}
+form {
+}
+input[type="text"],
+textarea {
+    font: 22px 'Inconsolata', 'Monaco', 'Consolas', monospace;
+    border: 1px solid #40B086;
+    border-radius: 3px;
+}
+input[type="text"]:focus,
+textarea:focus {
+    border: 1px solid #61851B;
+    border-radius: 3px;
+    box-shadow: 0 0 15px #71D20B;
+    outline:0;
+}
+

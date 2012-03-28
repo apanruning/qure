@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %} - QuRe</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/modernizr.js"></script>
+    <script>
+        $(function(){
+            $('textarea').focus();
+        })
+    </script>
+</head>
+<body>
+
+<div id="container">
+    <header>
+    <h1><a href="/">QuRe</a></h1>
+    </header>
+    <section id="main" role="main">
+    {% block page %}
+        
+    {% endblock %}
+    </section>
+    <footer>
+    &copy;2012 - <a href="http://apanruning.com.ar/">apanruning</a>
+    </footer>
+</div>
+
+</body>
+</html>
