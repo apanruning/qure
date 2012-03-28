@@ -1,0 +1,3 @@
+flask
+git+https://github.com/lincolnloop/python-qrcode.git
+PIL

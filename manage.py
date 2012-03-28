@@ -30,20 +30,33 @@ def generate_csrf_token():
 
 app.jinja_env.globals['csrf_token'] = generate_csrf_token  
 
+def create_qr(data):
+    filename = sha1(data).hexdigest()[:12]
+
+    qr = QRCode(
+        version=2,
+        border=0,
+    )
+    qr.add_data(data) 
+
+    img = qr.make_image()
+    img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename+'.png'), 'png')
+
+    return url_for('code', filename=filename)
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    if request.method == 'POST':
+    data = request.args.get('data', None)
+
+    if not data and request.method == 'POST' :
         data = request.form['data']
-        filename = sha1(data).hexdigest()[:12]
-        qr = QRCode(
-            version=2,
-            border=0,
-        )
-        qr.add_data(request.form['data']) 
-        img = qr.make_image()
-        img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename+'.png'), 'png')
-        return redirect(url_for('code', filename=filename))
+
+    if data:
+        redir = create_qr(data)
+        return redirect(redir)
+
     return render_template('index.html')
+
 
 @app.route('/<filename>')
 def code(filename):
