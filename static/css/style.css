@@ -1,7 +1,23 @@
+html, body {
+    height:100%;
+    margin: 0;
+    padding:0 ;
+}
 body {
     font: 13px 'Droid Sans', 'Helvetica', 'Arial', sans-serif;
     margin: 0;
     padding:0;
+}
+#container {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -3em;
+    padding: 1px;
+}
+footer{
+    height: 2em;
+    margin: 0 auto !important;
 }
 
 header, section, footer {
@@ -9,6 +25,19 @@ header, section, footer {
     width: 40em;
     margin: 4em auto;
 
+}
+header {
+    overflow:hidden;
+}
+header h1 {
+    float:left;
+    font-size: 3em;
+    margin: 0.2em
+}
+
+header nav {
+    float:right;
+    margin: 2em 0;
 }
 a {
     text-decoration: none;
@@ -23,6 +52,7 @@ input[type="text"],
 textarea {
     font: 22px 'Inconsolata', 'Monaco', 'Consolas', monospace;
     border: 1px solid #40B086;
+    width: 100%;
     border-radius: 3px;
 }
 input[type="text"]:focus,
@@ -32,4 +62,30 @@ textarea:focus {
     box-shadow: 0 0 15px #71D20B;
     outline:0;
 }
+input[type="submit"], 
+a.call {
+    border: 1px solid #61851B;
+    border-radius: 5px;
+    background: #40B086;
+    padding: 5px;
+    color: #FFF;
+}
+input[type="submit"]:hover, 
+a.call:hover {
+    text-shadow: none; 
+    cursor:pointer;
+    box-shadow:1px 1px 5px #333;
+ }
+#qr {
+    text-align:middle;
+}
+ 
+#qr img {
+    display:block;
+    margin: 0 auto;
+}
 
+.clear {
+    display:block;
+    clear: both;
+}

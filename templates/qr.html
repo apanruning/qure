@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
+{% block title %}
+    
+{% endblock %}
 {% block page %}
     <h2>Su código</h2>
-    <p><input type="text" size='{{url|length}}' value={{url}}></p>
-    <p><img src="{{config['UPLOAD_URL']}}{{filename}}.png" /></p>
+    <p><input type="text" size='{{image_url|length}}' value={{image_url}}></p>
+    <p id="qr"><img src="{{image_url}}" /></p>
+    <p><a class="call" href="/">Crear un nuevo QuRe</a></p>
+
 {% endblock %}

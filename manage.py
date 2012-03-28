@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import os
-from flask import Flask, request, render_template, session, redirect, abort, url_for
+from flask import Flask, request, render_template, session, redirect, abort, url_for, send_file
 from qrcode import QRCode
 from hashlib import sha1
 
@@ -31,18 +31,25 @@ def generate_csrf_token():
 app.jinja_env.globals['csrf_token'] = generate_csrf_token  
 
 def create_qr(data):
-    filename = sha1(data).hexdigest()[:12]
+    from PIL import PngImagePlugin
+    meta = PngImagePlugin.PngInfo()
+    meta.add_text('message', data)
+    filehash = sha1(data).hexdigest()[:12]
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
+    
+    if not os.path.exists(filepath):
+    
+        qr = QRCode(
+            version=2,
+            border=4,
+        )
+        qr.add_data(data)
 
-    qr = QRCode(
-        version=2,
-        border=0,
-    )
-    qr.add_data(data) 
-
-    img = qr.make_image()
-    img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename+'.png'), 'png')
-
-    return url_for('code', filename=filename)
+        img = qr.make_image()
+        img.save(filepath, 'png', pnginfo=meta)
+    else :
+        img = file(filepath)
+    return (img, filepath, filehash)
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -52,21 +59,39 @@ def index():
         data = request.form['data']
 
     if data:
-        redir = create_qr(data)
-        return redirect(redir)
+        img, filepath, filehash = create_qr(data)
+        return redirect(url_for('code', filehash=filehash))
 
     return render_template('index.html')
 
-
-@app.route('/<filename>')
-def code(filename):
-    url = url_for('code', filename=filename, _external=True)
+@app.route('/<filehash>')
+def code(filehash):
+    from PIL import Image
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
+    url = url_for('code', filehash=filehash, _external=True)
+    data = Image.open(filepath).info['message']
+    image_url = url_for('qr', data=data, _external=True)
     return render_template(
         'qr.html', 
-        filename=filename, 
-        url=url
+        filehash=filehash,
+        url=url,
+        data=data,
+        image_url=image_url
     )
 
+@app.route('/qr/<data>')
+def qr(data):
+
+    img, filepath, filehash = create_qr(data)
+
+    return send_file(
+        filepath, 
+        mimetype='image/png'
+    )
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.debug = True
