@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Copyright (c) 2012 Matías Iturburu, Martín Onetti, Francisco Herrero
-See LICENSE for copyright notice.
+See COPYING for copyright notice.
 '''
 
 import os
