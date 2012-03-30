@@ -39,7 +39,7 @@ def create_qr(data):
     filehash = sha1(data.encode('ascii', 'ignore')).hexdigest()[:12]
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
     
-    data = quote(data.encode('utf8'))
+    data = data.encode('utf8')
     meta.add_text('message', data)
     
     if not os.path.exists(filepath):
@@ -74,7 +74,8 @@ def code(filehash):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
     
     url = url_for('code', filehash=filehash, _external=True)
-    data = unicode(unquote(Image.open(filepath).info['message']),'utf8')
+    data = Image.open(filepath).info
+    data = unicode(data.get('message', ''),'utf8')
     image_url = url_for('qr', data=data, _external=True)
     
     return render_template(
