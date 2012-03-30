@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+'''
+Copyright (c) 2012 Matías Iturburu, Martín Onetti, Francisco Herrero
+See LICENSE for copyright notice.
+'''
 
 import os
 from flask import Flask, request, render_template, session, redirect, abort, url_for, send_file
@@ -11,12 +15,9 @@ app = Flask(__name__)
 app.config.from_pyfile('settings.cfg')
 
 
-
 '''
 Helpers
 '''
-
-
 @app.before_request
 def csrf_protect():
     if request.method == "POST":
@@ -33,7 +34,6 @@ def generate_csrf_token():
 app.jinja_env.globals['csrf_token'] = generate_csrf_token  
 
 def create_qr(data):
-
     
     meta = PngImagePlugin.PngInfo()
     filehash = sha1(data.encode('ascii', 'ignore')).hexdigest()[:12]
@@ -56,6 +56,10 @@ def create_qr(data):
         img = file(filepath)
     return (img, filepath, filehash)
 
+
+'''
+Routes
+'''
 @app.route('/', methods=['POST', 'GET'])
 def index():
     data = request.args.get('data', None)
@@ -100,6 +104,9 @@ def qr(data):
 def about():
     return render_template('about.html')
 
+'''
+Development server
+'''
 if __name__ == '__main__':
     app.debug = True
     app.run()
