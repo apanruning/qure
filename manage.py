@@ -33,8 +33,10 @@ def generate_csrf_token():
 
 app.jinja_env.globals['csrf_token'] = generate_csrf_token  
 
-def create_qr(data):
-    
+def create_qr(data, z=None):
+
+   
+    box_size = int(z) < 15 and int(z) or 10
     meta = PngImagePlugin.PngInfo()
     filehash = sha1(data.encode('ascii', 'ignore')).hexdigest()[:12]
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filehash+'.png')
@@ -43,11 +45,12 @@ def create_qr(data):
     meta.add_text('message', data)
     
     if not os.path.exists(filepath):
-    
         qr = QRCode(
-            version=2,
+            version=4,
             border=4,
+            box_size=box_size,
         )
+
         qr.add_data(data)
 
         img = qr.make_image()
@@ -93,7 +96,8 @@ def code(filehash):
 @app.route('/qr/<data>')
 def qr(data):
 
-    img, filepath, filehash = create_qr(data)
+    z = request.args.get('z', None)
+    img, filepath, filehash = create_qr(data, z)
 
     return send_file(
         filepath, 
